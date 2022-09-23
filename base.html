@@ -1,58 +1,25 @@
-import os
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Meta -->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Use url_for to link a stylesheet named `style.css` here. -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+        <!-- Use Jinja to put a title here. -->
+        <title>{%blocktitle%}Title{%endblock%}</title>
+    </head>
 
-from flask import Flask, flash, redirect, render_template, request, session, url_for, abort
-from helpers import get_users, hash_password
-
-__winc_id__ = "8fd255f5fe5e40dcb1995184eaa26116"
-__human_name__ = "authentication"
-
-app = Flask(__name__)
-
-app.secret_key = os.urandom(16)
-
-
-@app.route("/home")
-def redirect_index():
-    return redirect(url_for("index"))
-
-
-@app.route("/")
-def index():
-    return render_template("index.html", title="Index")
-
-
-@app.route("/about")
-def about():
-    return render_template("about.html", title="About")
-
-
-@app.route("/lon")
-def lon():
-    return render_template("lon.html", title="League of Nations")
-
-def helpers(get_users, hash_password):
-    return helpers.get_users(), helpers.hash_password()
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == ['GET']:
-        request.form['hash_password'] == 'hash_password' 
-    if request.method == ['POST']:
-        request.form['get_users'] =='admin'
-        session['logged-in']=True
-    else:
-        flash('wrong password!')
-        return redirect('/login?error=True')
-    return redirect('/dashboard')
-
-
-@app.route('/dashboard', methods=['GET'])
-def dashboard():
-    if request.method ==['GET']: 
-        return dashboard.html
-    
-@app.route("/logout", methods=["GET", "POST"])
-def logout():
-    session['logged-in']=False
-    return redirect('/')
-
+    <body>
+        <h1>Hi!</h1>
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="/home/{{Home}}">Home</a></li>
+            <li><a href="/about/{{About}}">About</a></li>
+            <li><a href="/login/{{Login}}">Login</a></li>
+            <li><a href="/lon/{League of Nations}}">League of Nations</a></li>
+        </ul>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
